@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Belle Époque Café Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #905335;
+      --secondary: #cac47f;
+      --accent: #f1f1eb;
+      --light: #f6f95d;
+      --dark: #caac9c;
+      --text: #3a3228;
+      --shadow: 0 4px 12px rgba(231, 174, 105, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text);
+      background-color: var(--light);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 0;
+      background-color: var(--primary);
+      color: var(--light);
+      margin-bottom: 40px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      opacity: 0.8;
+    }
+
+    .menu-category {
+      margin-bottom: 30px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background-color: var(--secondary);
+      padding: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .category-header:hover {
+      background-color: var(--accent);
+    }
+
+    .category-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--primary);
+      flex-grow: 1;
+    }
+
+    .category-image {
+      width: 150px;
+      height: 100px;
+      object-fit: contain;
+      background-color: transparent;
+      margin-left: 20px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .category-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background-color: rgba(248, 245, 195, 0.947);
+      padding: 0 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .menu-item {
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(180, 160, 134, 0.9);
+    }
+
+    .item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--primary);
+    }
+
+    .item-price {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 1.2rem;
+    }
+
+    .item-desc {
+      margin-top: 5px;
+      color: var(--text);
+      opacity: 0.8;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      margin-top: 60px;
+      border-top: 1px solid rgba(177, 123, 96, 0.1);
+      font-size: 0.9rem;
+      color: var(--text);
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>PassTime</h1>
+      <div class="subtitle">Good Food, Takes Time</div>
+      
+    </header>
+
+   <!-- Burger Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Burger</div>
+    <img class="category-image" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Burger Image"/>
+  </div>
+  <div class="category-content">
+    <div class="menu-item">
+      <div class="item-name">Veg Burger</div>
+      <div class="item-price">₹60</div>
+      <div class="item-desc">Fresh vegetables layered between slices of soft bread.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Veg Cheese Burger</div>
+      <div class="item-price">₹130</div>
+      <div class="item-desc">Toasted sandwich filled with grilled veggies and cheese.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Aloo Tikki Burger</div>
+      <div class="item-price">₹70</div>
+      <div class="item-desc">Grilled sandwich with a cheesy vegetable stuffing.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Aloo Tikki Cheese Burger</div>
+      <div class="item-price">₹80</div>
+      <div class="item-desc">Grilled sandwich with a cheesy vegetable stuffing.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Aloo Tikki Double Decker Burger</div>
+      <div class="item-price">₹140</div>
+      <div class="item-desc">Grilled sandwich with a cheesy vegetable stuffing.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Paneer Burger</div>
+      <div class="item-price">₹90</div>
+      <div class="item-desc">Grilled sandwich with a cheesy vegetable stuffing.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Paneer Cheese Burger</div>
+      <div class="item-price">₹100</div>
+      <div class="item-desc">Grilled sandwich with a cheesy vegetable stuffing.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Panner Double Decker Burger</div>
+      <div class="item-price">₹170</div>
+      <div class="item-desc">Grilled sandwich with a cheesy vegetable stuffing.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Pasta Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Pasta</div>
+    <img class="category-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwfDe_2DpKii2d-N9vD3LnkmmwNa1uFvbNG59r8Qiu3R9HrHyqmu8p11XEpLgR4cTBx9c&usqp=CAU" alt="Pasta Image"/>
+  </div>
+  <div class="category-content">
+    <div class="menu-item">
+      <div class="item-name">White Sauce Pasta</div>
+      <div class="item-price">₹110</div>
+      <div class="item-desc">Classic pizza topped with cheese and herbs.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Cheesy White Sauce Pasta</div>
+      <div class="item-price">₹130</div>
+      <div class="item-desc">Topped with assorted vegetables and mozzarella cheese.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Red Sauce Pasta</div>
+      <div class="item-price">₹110</div>
+      <div class="item-desc">Loaded with sweet corn and melted cheese.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Cheesy Red Sauce Pasta</div>
+      <div class="item-price">₹130</div>
+      <div class="item-desc">Loaded with sweet corn and melted cheese.</div>
+    </div>
+    
+    
+  </div>
+</div>
+
+<!-- momos Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Momos</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+    <div class="menu-item">
+      <div class="item-name">Veg Steam momos</div>
+      <div class="item-price">₹50</div>
+      <div class="item-name">Paneer Steam momos</div>
+      <div class="item-price">₹60</div>
+      <div class="item-desc">Overflowing with cheese and flavor-packed fillings.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Veg Fried momos</div>
+      <div class="item-price">₹60</div>
+      <div class="item-name">Panner Fried momos</div>
+      <div class="item-price">₹65</div>
+      <div class="item-name">Cheese Corn Fried momos</div>
+      <div class="item-price">₹65</div>
+      <div class="item-desc">A cheesy treat with fresh vegetables on soft bread.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Veg Kurkure Momos </div>
+      <div class="item-price">₹75</div>
+      <div class="item-name">Paneer Kurkure Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-name">Cheese Corn Kurkure Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-desc">Simple and classic buttered bread snack.</div>
+    </div>
+    <div class="menu-item">
+      <div class="item-name">Veg Peri-Peri Momos </div>
+      <div class="item-price">₹75</div>
+      <div class="item-name">Pneer Peri-Peri Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-name">Cheese Corn Peri-Peri Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-desc">Sweet and buttery bread slices with fruit jam.</div>
+    </div>
+
+     <div class="menu-item">
+      <div class="item-name">Veg Lava Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-name">Pneer Lava Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-name">Cheese Corn Lava Momos </div>
+      <div class="item-price">₹80</div>
+      <div class="item-desc">Sweet and buttery bread slices with fruit jam.</div>
+    </div>
+
+     <div class="menu-item">
+      <div class="item-name">Veg Makhani Momos </div>
+      <div class="item-price">₹85</div>
+      <div class="item-name">Pneer Makhani Momos </div>
+      <div class="item-price">₹85</div>
+      <div class="item-name">Cheese Corn Makhani Momos </div>
+      <div class="item-price">₹85</div>
+      <div class="item-desc">Sweet and buttery bread slices with fruit jam.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Pizza Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Pizza</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Pizza Image"/>
+  </div>
+  <div class="category-content">
+    <h2>Pizza</h2>
+
+<div class="menu-item">
+  <div class="item-name">Margherita Pizza</div>
+  <div class="item-price">₹90</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Veg Classic Pizza</div>
+  <div class="item-price">₹110</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">American Corn Cheese Pizza</div>
+  <div class="item-price">₹110</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Veg Cheese Burst Pizza</div>
+  <div class="item-price">₹130</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Paneer Capsicum Pizza</div>
+  <div class="item-price">₹120</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Paneer Makhani Pizza</div>
+  <div class="item-price">₹140</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Paneer Tandoori Pizza</div>
+  <div class="item-price">₹140</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- Fries Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Fries</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20220429/original/pngtree-french-fries-vector-cartoon-illustration-png-image_7579343.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+  <div class="menu-item">
+  <div class="item-name">French Fries</div>
+  <div class="item-price">₹55</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Salted French Fries</div>
+  <div class="item-price">₹65</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Peri Peri French Fries</div>
+  <div class="item-price">₹70</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Cheese French Fries</div>
+  <div class="item-price">₹80</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Cheese Peri Peri French Fries</div>
+  <div class="item-price">₹80</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Lava French Fries</div>
+  <div class="item-price">₹85</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Cheese Lava French Fries</div>
+  <div class="item-price">₹95</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Cheesy Tandoori French Fries</div>
+  <div class="item-price">₹95</div>  
+</div>
+  </div>
+</div>
+
+<!-- Maggie Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Maggie</div>
+    <img class="category-image" src="https://png.pngtree.com/png-vector/20241119/ourmid/pngtree-noodles-with-chopsticks-png-image_14480857.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+  <div class="menu-item">
+  <div class="item-name">Regular Maggie</div>
+  <div class="item-price">₹35</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Grated Cheese Regular Maggie</div>
+  <div class="item-price">₹50</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Melted Cheese Regular Maggie</div>
+  <div class="item-price">₹60</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Masala Maggie</div>
+  <div class="item-price">₹50</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Grated Cheese Masala Maggie</div>
+  <div class="item-price">₹55</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Melted Cheese Masala Maggie</div>
+  <div class="item-price">₹65</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Corn Masala Maggie</div>
+  <div class="item-price">₹50</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Grated Cheese Corn Masala Maggie</div>
+  <div class="item-price">₹55</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Melted Cheese Corn Masala Maggie</div>
+  <div class="item-price">₹65</div>  
+</div>
+   </div>
+</div>
+    
+
+<!-- wraps Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">wraps</div>
+    <img class="category-image" src="https://png.pngtree.com/png-vector/20231020/ourmid/pngtree-beef-tortilla-roll-with-salad-food-illustration-png-image_10235546.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+
+<div class="menu-item">
+  <div class="item-name">Veg Cheese Wrap</div>
+  <div class="item-price">₹90</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Paneer Cheese Wrap</div>
+  <div class="item-price">₹100</div>
+</div>
+
+  </div>
+</div>
+
+
+<!-- Toast Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Toast</div>
+    <img class="category-image" src="https://png.pngtree.com/png-vector/20241230/ourmid/pngtree-cute-toast-characters-popping-out-of-toaster-png-image_14878305.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+
+<div class="menu-item">
+  <div class="item-name">Cheese Toast</div>
+  <div class="item-price">₹50</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Cheese Chilly Toast</div>
+  <div class="item-price">₹65</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Cheese Garlic Toast</div>
+  <div class="item-price">₹70</div>
+</div>
+  </div>
+</div>
+
+<!-- Hot Beverages Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Hot Beverages</div>
+    <img class="category-image" src="https://png.pngtree.com/element_our/20190604/ourmid/pngtree-fresh-tea-and-tea-illustration-image_1471401.jpg" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+
+
+<div class="menu-item">
+  <div class="item-name">Regular Hot Coffee</div>
+  <div class="item-price">₹20</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Strong Hot Coffee</div>
+  <div class="item-price">₹25</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Black Coffee</div>
+  <div class="item-price">₹20</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Hot Chocolate</div>
+  <div class="item-price">₹35</div>
+</div>
+  </div>
+</div>
+
+
+<!-- Tea Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Tea</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+
+<div class="menu-item">
+  <div class="item-name">Black Tea</div>
+  <div class="item-price">₹15</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Masala Chai</div>
+  <div class="item-price">₹15</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Lemon Tea</div>
+  <div class="item-price">₹20</div>
+</div>
+
+    </div>
+</div>
+
+
+<!-- Shakes Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Shakes</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+   
+
+<div class="menu-item">
+  <div class="item-name">Strawberry</div>
+  <div class="item-price">₹50</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Butterscotch</div>
+  <div class="item-price">₹50</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Mango</div>
+  <div class="item-price">₹50</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Pista</div>
+  <div class="item-price">₹50</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Black Current</div>
+  <div class="item-price">₹50</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Kitkat Shake</div>
+  <div class="item-price">₹60</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Oreo Shake</div>
+  <div class="item-price">₹60</div>
+</div>
+
+    </div>
+</div>
+
+<!-- Past Time Special Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Past Time Special</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+
+<div class="menu-item">
+  <div class="item-name">Cream & Onion Maggie</div>
+  <div class="item-price">₹70</div>  
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Doritos Maggie</div>
+  <div class="item-price">₹70</div>  
+</div>
+
+</div>
+</div>
+
+<!-- Mocktails Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Mocktails</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+    
+<div class="menu-item">
+  <div class="item-name">Blue Lagoon</div>
+  <div class="item-price">₹60</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Orange</div>
+  <div class="item-price">₹60</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Green Mint</div>
+  <div class="item-price">₹60</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Green Apple</div>
+  <div class="item-price">₹60</div>
+</div>
+
+   </div>
+</div>
+   
+<!-- Add-Ons Section -->
+<div class="menu-category">
+  <div class="category-header" onclick="toggleCategory(this)">
+    <div class="category-title">Add-Ons</div>
+    <img class="category-image" src="https://png.pngtree.com/png-clipart/20230216/ourmid/pngtree-cute-pizza-slice-clip-art-illustration-png-image_6602536.png" alt="Special Image"/>
+  </div>
+  <div class="category-content">
+
+<div class="menu-item">
+  <div class="item-name">Cheese</div>
+  <div class="item-price">₹10</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Ice-Cream</div>
+  <div class="item-price">₹15</div>
+</div>
+
+<div class="menu-item">
+  <div class="item-name">Crush</div>
+  <div class="item-price">₹15</div>
+</div>
+
+     </div>
+</div>
+    <footer>
+      &copy; 2023 Belle Époque Café. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    function toggleCategory(element) {
+      const content = element.nextElementSibling;
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+    }
+  </script>
+</body>
+</html>
