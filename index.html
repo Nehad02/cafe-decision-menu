@@ -16,6 +16,8 @@
       --text: #3a3228;
       --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
       --shadow-medium: 0 8px 30px rgba(144, 83, 53, 0.15);
+      --header-bg: #2E3B4E; /* Color from logo */
+      --success: #28a745;
     }
 
     * {
@@ -39,26 +41,25 @@
 
     header {
       text-align: center;
-      padding: 40px 20px;
-      background-color: var(--primary);
+      padding: 25px 20px;
+      background-color: var(--header-bg);
       color: var(--light-bg);
       margin-bottom: 50px;
       border-radius: 12px;
       box-shadow: var(--shadow-medium);
     }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
+    
+    .cafe-logo {
+        max-width: 280px;
+        height: auto;
     }
 
     .subtitle {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: 2px;
-      opacity: 0.9;
+      opacity: 0.8;
       font-weight: 400;
+      margin-top: 5px;
     }
     
     .menu-grid {
@@ -124,11 +125,38 @@
       z-index: 2;
       text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
     }
+
+    .review-section {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: var(--accent);
+      margin: 50px auto;
+      border-radius: 12px;
+    }
+
+    .review-button {
+      display: inline-block;
+      padding: 15px 30px;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: var(--shadow-light);
+    }
+
+    .review-button:hover {
+      background-color: #a46440;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
     
     footer {
       text-align: center;
       padding: 40px 0;
-      margin-top: 60px;
+      margin-top: 20px;
       border-top: 1px solid var(--accent);
       font-size: 0.9rem;
       color: var(--text);
@@ -144,7 +172,7 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.6);
-        display: none; /* Initially hidden */
+        display: none;
         align-items: center;
         justify-content: center;
         opacity: 0;
@@ -200,7 +228,20 @@
     .menu-item {
       padding: 15px 0;
       border-bottom: 1px solid var(--accent);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
+
+    .menu-item.item-added {
+        animation: flash-green 0.7s ease;
+    }
+
+    @keyframes flash-green {
+        0% { background-color: var(--light-bg); }
+        50% { background-color: #d4edda; }
+        100% { background-color: var(--light-bg); }
+    }
+
     .menu-item:last-child {
         border-bottom: none;
     }
@@ -209,6 +250,11 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      pointer-events: none; /* Make child elements unclickable */
+    }
+
+    .item-name, .item-price, .item-desc {
+        pointer-events: none;
     }
 
     .item-name {
@@ -232,15 +278,57 @@
       font-size: 0.95rem;
     }
 
-    /* Hidden content for modals */
     .hidden-content {
       display: none;
     }
 
+    /* Cart Button Styles */
+    .cart-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 600;
+        box-shadow: var(--shadow-medium);
+        z-index: 999;
+        transition: transform 0.2s ease;
+    }
+
+    .cart-button:hover {
+        transform: scale(1.05);
+    }
+    
+    #cart-emoji {
+        margin-right: 8px;
+    }
+
+    .cart-count {
+        background-color: var(--secondary);
+        color: var(--text);
+        border-radius: 50%;
+        padding: 2px 8px;
+        font-size: 0.9rem;
+        margin-left: 8px;
+    }
+    
+    /* Bill Modal Styles */
+    #bill-modal .total-bill {
+        text-align: right;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid var(--accent);
+    }
+
+
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.8rem;
-      }
       .menu-grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -260,7 +348,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>PassTime</h1>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzRT1plGvQJTsWLsLv9EixxpWjKBdK5l4o5A&s" alt="PassTime Cafe Logo" class="cafe-logo">
       <p class="subtitle">Good Food, Takes Time</p>
     </header>
 
@@ -284,7 +372,7 @@
         <div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bW9tb3N8ZW58MHx8MHx8fDA%3D');"></div>
         <h2 class="category-title">Momos</h2>
       </div>
-       
+      
       <div class="category-card" data-category="fries">
         <div class="card-background" style="background-image: url('https://media.istockphoto.com/id/1218213212/photo/homemade-french-fries-with-ketchup-and-mayonnaise-on-rustic-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=QYwXP0-whoz7Cni7CXNfIyT_pOcRpZUYHqkTYH4MEhA=');"></div>
         <h2 class="category-title">Fries</h2>
@@ -311,6 +399,12 @@
       </div>
     </main>
 
+    <div class="review-section">
+        <a href="https://www.google.com/search?sa=X&sca_esv=db574b12b5cc4f7e&rlz=1C1RXQR_enIN1015IN1015&sxsrf=AE3TifN3tFeWKtMG0NKo2hzJUT8atPWgcg:1753719057015&q=passtime+cafe+karve+nagar+pune&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-ExOlUsG3pl95pw1oXMJbXRv2G7OVKCazs0587QUNXZ-3JqHlr7vZCoCoK5vYYKCB4tgJ5jwkVtkHL0MKNPTXxRJA0ppb&ved=2ahUKEwjjobfL-N-OAxWPbGwGHcZSGPkQrrQLegQIGhAA&biw=1536&bih=695&dpr=1.25#lrd=0x3bc2bf6202271971:0x1803514c7f5f3c2e,3,,,," class="review-button" target="_blank" rel="noopener noreferrer">
+            ⭐ Rate Us & Add Photos Online
+        </a>
+    </div>
+
     <footer>
       &copy; 2025 PassTime Café. All rights reserved.
     </footer>
@@ -319,9 +413,19 @@
   <div id="menu-modal" class="modal">
     <div class="modal-content">
       <span class="modal-close">&times;</span>
-      <div id="modal-body">
-        </div>
+      <div id="modal-body"></div>
     </div>
+  </div>
+
+  <div id="bill-modal" class="modal">
+      <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          <div id="bill-modal-body"></div>
+      </div>
+  </div>
+  
+  <div id="cart-button" class="cart-button">
+      <span id="cart-emoji">🍽️</span> My Order <span id="cart-count" class="cart-count">0</span>
   </div>
 
   <div class="hidden-content">
@@ -474,53 +578,135 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const modal = document.getElementById('menu-modal');
+      const menuModal = document.getElementById('menu-modal');
       const modalBody = document.getElementById('modal-body');
-      const closeModalBtn = document.querySelector('.modal-close');
       const categoryCards = document.querySelectorAll('.category-card');
+      
+      const billModal = document.getElementById('bill-modal');
+      const billModalBody = document.getElementById('bill-modal-body');
+      const cartButton = document.getElementById('cart-button');
+      const cartCount = document.getElementById('cart-count');
+      const cartEmoji = document.getElementById('cart-emoji');
 
-      // Function to open the modal
-      function openModal(category) {
-        // Find the hidden content for the category
-       const contentToShow = document.getElementById(`${category}-items`).innerHTML;
+      let order = [];
 
-        // Inject the content into the modal body
+      // --- Open Category Modal ---
+      function openMenuModal(category) {
+        const contentToShow = document.getElementById(`${category}-items`).innerHTML;
         modalBody.innerHTML = contentToShow;
-        // Show the modal with a fade-in effect
-        modal.classList.add('show');
-        // Prevent background from scrolling
+        menuModal.classList.add('show');
         document.body.style.overflow = 'hidden';
       }
 
-      // Function to close the modal
-      function closeModal() {
-        modal.classList.remove('show');
-        // Allow background to scroll again
-        document.body.style.overflow = 'auto';
+      // --- Add item to order ---
+      function addItemToOrder(itemEl) {
+          const name = itemEl.querySelector('.item-name').textContent;
+          const priceString = itemEl.querySelector('.item-price').textContent;
+          const price = parseFloat(priceString.replace('₹', ''));
+
+          order.push({ name, price });
+          updateCartButton();
+
+          // Visual feedback
+          itemEl.classList.add('item-added');
+          setTimeout(() => {
+              itemEl.classList.remove('item-added');
+          }, 700);
       }
 
-      // Add click event to each category card
+      function updateCartButton() {
+          const count = order.length;
+          cartCount.textContent = count;
+          
+          if (count === 0) {
+              cartEmoji.textContent = '🍽️';
+          } else {
+              cartEmoji.textContent = '🥗';
+          }
+      }
+      
+      // --- Show Final Bill ---
+      function showFinalBill() {
+        if(order.length === 0) {
+            alert("Your order is empty! Click on a dish to add it to your order.");
+            return;
+        }
+
+        let billHTML = '<h3 class="modal-title">Your Final Order</h3>';
+        let total = 0;
+
+        order.forEach(item => {
+            billHTML += `
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-price">₹${item.price.toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
+            total += item.price;
+        });
+
+        billHTML += `<div class="total-bill">Total Bill: ₹${total.toFixed(2)}</div>`;
+        
+        billModalBody.innerHTML = billHTML;
+        billModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+
+
+      // --- Event Listeners ---
+
+      // Open category modals
       categoryCards.forEach(card => {
         card.addEventListener('click', () => {
           const category = card.getAttribute('data-category');
-          openModal(category);
+          openMenuModal(category);
         });
       });
 
-      // Add click event to the close button
-      closeModalBtn.addEventListener('click', closeModal);
-
-      // Add click event to the modal overlay (to close when clicking outside the content)
-      modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-          closeModal();
-        }
+      // Add item to order using event delegation
+      modalBody.addEventListener('click', function(event) {
+          const clickedItem = event.target.closest('.menu-item');
+          if (clickedItem) {
+              addItemToOrder(clickedItem);
+          }
       });
+
+      // Show bill modal
+      cartButton.addEventListener('click', showFinalBill);
+
+      // Generic modal close logic
+      function setupModalClose(modal) {
+        const closeModalBtn = modal.querySelector('.modal-close');
+        
+        function closeModal() {
+            modal.classList.remove('show');
+            // Only re-enable scrolling if no other modals are open
+            if (!document.querySelector('.modal.show')) {
+                 document.body.style.overflow = 'auto';
+            }
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+      }
+
+      setupModalClose(menuModal);
+      setupModalClose(billModal);
       
-      // Allow closing the modal with the 'Escape' key
+      // Allow closing any modal with the 'Escape' key
       document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal.classList.contains('show')) {
-            closeModal();
+        if (event.key === 'Escape') {
+            const openModals = document.querySelectorAll('.modal.show');
+            openModals.forEach(modal => modal.classList.remove('show'));
+            if(openModals.length > 0) {
+                 document.body.style.overflow = 'auto';
+            }
         }
       });
     });
