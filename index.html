@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
   <style>
     :root {
       --primary: #905335;
@@ -16,386 +17,79 @@
       --text: #3a3228;
       --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
       --shadow-medium: 0 8px 30px rgba(144, 83, 53, 0.15);
-      --header-bg: #2E3B4E; /* Color from logo */
+      --header-bg: #2E3B4E;
       --highlight-bg: #fdf8f2;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--text);
-      background-color: var(--light-bg);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    header {
-      text-align: center;
-      padding: 25px 20px;
-      background-color: var(--header-bg);
-      color: var(--light-bg);
-      margin-bottom: 50px;
-      border-radius: 12px;
-      box-shadow: var(--shadow-medium);
-    }
-    
-    .cafe-logo {
-        max-width: 280px;
-        height: auto;
-    }
-
-    .subtitle {
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      opacity: 0.8;
-      font-weight: 400;
-      margin-top: 5px;
-    }
-    
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .category-card {
-      position: relative;
-      height: 400px;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-      box-shadow: var(--shadow-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .category-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-medium);
-    }
-
-    .category-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1));
-      transition: background 0.4s ease;
-    }
-
-    .category-card:hover::before {
-      background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
-    }
-    
-    .card-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        transition: transform 0.4s ease;
-    }
-
-    .category-card:hover .card-background {
-        transform: scale(1.05);
-    }
-
-    .category-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: white;
-      position: relative;
-      z-index: 2;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-    }
-
-    .review-section {
-      text-align: center;
-      padding: 40px 20px;
-      background-color: var(--accent);
-      margin: 50px auto;
-      border-radius: 12px;
-    }
-
-    .review-button {
-      display: inline-block;
-      padding: 15px 30px;
-      background-color: var(--primary);
-      color: white;
-      text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border-radius: 8px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: var(--shadow-light);
-    }
-
-    .review-button:hover {
-      background-color: #a46440;
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-medium);
-    }
-    
-    footer {
-      text-align: center;
-      padding: 40px 0;
-      margin-top: 20px;
-      border-top: 1px solid var(--accent);
-      font-size: 0.9rem;
-      color: var(--text);
-      opacity: 0.7;
-    }
-
-    /* Modal Styles */
-    .modal {
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .modal.show {
-        display: flex;
-        opacity: 1;
-    }
-
-    .modal-content {
-        background-color: var(--light-bg);
-        border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        width: 90%;
-        max-width: 600px;
-        max-height: 90vh;
-        position: relative;
-        transform: scale(0.95);
-        transition: transform 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    
-    .modal.show .modal-content {
-        transform: scale(1);
-    }
-    
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 40px;
-        border-bottom: 1px solid var(--accent);
-        flex-shrink: 0;
-    }
-
-    .modal-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.2rem;
-        color: var(--primary);
-        margin: 0;
-        text-align: left;
-    }
-
-    .modal-close {
-        font-size: 32px;
-        font-weight: bold;
-        color: #aaa;
-        cursor: pointer;
-        transition: color 0.2s;
-        line-height: 1;
-    }
-
-    .modal-close:hover {
-        color: var(--primary);
-    }
-
-    .modal-body-scrollable {
-        overflow-y: auto;
-        padding: 0 40px;
-    }
-    
-    .menu-item {
-      padding: 15px 0;
-      border-bottom: 1px solid var(--accent);
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      position: relative;
-    }
-    
-    .menu-item.in-cart {
-        background-color: var(--highlight-bg);
-    }
-
-    .item-quantity-badge {
-        position: absolute;
-        top: 18px;
-        right: 50px;
-        background-color: var(--primary);
-        color: white;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        font-weight: 600;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .menu-item:last-child {
-        border-bottom: none;
-    }
-
-    .item-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      pointer-events: none;
-    }
-
-    .item-name, .item-price, .item-desc {
-        pointer-events: none;
-    }
-
-    .item-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      color: var(--primary);
-      margin-right: 15px;
-    }
-
-    .item-price {
-      font-weight: 600;
-      color: var(--text);
-      font-size: 1.2rem;
-      white-space: nowrap;
-    }
-
-    .item-desc {
-      margin-top: 5px;
-      color: var(--text);
-      opacity: 0.8;
-      font-size: 0.95rem;
-    }
-
-    .hidden-content {
-      display: none;
-    }
-
-    /* Cart Button Styles */
-    .cart-button {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: var(--primary);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 1.1rem;
-        font-weight: 600;
-        box-shadow: var(--shadow-medium);
-        z-index: 999;
-        transition: transform 0.2s ease;
-    }
-
-    .cart-button:hover {
-        transform: scale(1.05);
-    }
-    
-    #cart-emoji {
-        margin-right: 8px;
-    }
-
-    .cart-count {
-        background-color: var(--secondary);
-        color: var(--text);
-        border-radius: 50%;
-        padding: 2px 8px;
-        font-size: 0.9rem;
-        margin-left: 8px;
-    }
-    
-    /* Bill Modal Styles */
-    .bill-item-details {
-        flex-grow: 1;
-    }
-    .bill-item-actions {
-        display: flex;
-        align-items: center;
-    }
-    .bill-item-quantity {
-        margin: 0 15px;
-        font-weight: 600;
-    }
-    .remove-item-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-weight: bold;
-    line-height: 25px;
-    text-align: center;
-    pointer-events: auto; /* This line fixes the button */
-}
-    
-    .total-bill {
-        text-align: right;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary);
-        margin-top: 20px;
-        padding: 20px 0;
-        border-top: 2px solid var(--accent);
-    }
-
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; color: var(--text); background-color: var(--light-bg); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    header { text-align: center; padding: 25px 20px; background-color: var(--header-bg); color: var(--light-bg); margin-bottom: 50px; border-radius: 12px; box-shadow: var(--shadow-medium); }
+    .cafe-logo { max-width: 280px; height: auto; }
+    .subtitle { font-size: 1.1rem; letter-spacing: 2px; opacity: 0.8; font-weight: 400; margin-top: 5px; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .category-card { position: relative; height: 400px; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.4s ease, box-shadow 0.4s ease; box-shadow: var(--shadow-light); display: flex; align-items: center; justify-content: center; text-align: center; }
+    .category-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-medium); }
+    .category-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1)); transition: background 0.4s ease; }
+    .category-card:hover::before { background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2)); }
+    .card-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 0.4s ease; }
+    .category-card:hover .card-background { transform: scale(1.05); }
+    .category-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: white; position: relative; z-index: 2; text-shadow: 2px 2px 10px rgba(0,0,0,0.7); }
+    .review-section { text-align: center; padding: 40px 20px; background-color: var(--accent); margin: 50px auto; border-radius: 12px; }
+    .review-button { display: inline-block; padding: 15px 30px; background-color: var(--primary); color: white; text-decoration: none; font-size: 1.1rem; font-weight: 600; border-radius: 8px; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: var(--shadow-light); }
+    .review-button:hover { background-color: #a46440; transform: translateY(-3px); box-shadow: var(--shadow-medium); }
+    footer { text-align: center; padding: 40px 0; margin-top: 20px; border-top: 1px solid var(--accent); }
+    footer p { font-size: 0.9rem; color: var(--text); opacity: 0.7; }
+    .modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+    .modal.show { display: flex; opacity: 1; }
+    .modal-content { background-color: var(--light-bg); border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); width: 90%; max-width: 600px; max-height: 90vh; position: relative; transform: scale(0.95); transition: transform 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
+    .modal.show .modal-content { transform: scale(1); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid var(--accent); flex-shrink: 0; }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary); margin: 0; text-align: left; }
+    .modal-close { font-size: 32px; font-weight: bold; color: #aaa; cursor: pointer; transition: color 0.2s; line-height: 1; }
+    .modal-close:hover { color: var(--primary); }
+    .modal-body-scrollable { overflow-y: auto; padding: 0 40px; }
+    .menu-item { padding: 15px 0; border-bottom: 1px solid var(--accent); cursor: pointer; transition: background-color 0.3s ease; position: relative; }
+    .menu-item.in-cart { background-color: var(--highlight-bg); }
+    .item-quantity-badge { position: absolute; top: 18px; right: 50px; background-color: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    .menu-item:last-child { border-bottom: none; }
+    .item-header { display: flex; justify-content: space-between; align-items: baseline; pointer-events: none; }
+    .item-name, .item-price, .item-desc { pointer-events: none; }
+    .item-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--primary); margin-right: 15px; }
+    .item-price { font-weight: 600; color: var(--text); font-size: 1.2rem; white-space: nowrap; }
+    .item-desc { margin-top: 5px; color: var(--text); opacity: 0.8; font-size: 0.95rem; }
+    .hidden-content { display: none; }
+    .cart-button { position: fixed; bottom: 20px; right: 20px; background-color: var(--primary); color: white; padding: 15px 25px; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: var(--shadow-medium); z-index: 999; transition: transform 0.2s ease; }
+    .cart-button:hover { transform: scale(1.05); }
+    #cart-emoji { margin-right: 8px; }
+    .cart-count { background-color: var(--secondary); color: var(--text); border-radius: 50%; padding: 2px 8px; font-size: 0.9rem; margin-left: 8px; }
+    .bill-item-details { flex-grow: 1; }
+    .bill-item-actions { display: flex; align-items: center; }
+    .bill-item-quantity { margin: 0 15px; font-weight: 600; }
+    .remove-item-btn { background: #e74c3c; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-weight: bold; line-height: 25px; text-align: center; pointer-events: auto; }
+    .total-bill { text-align: right; font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 20px; padding: 20px 0; border-top: 2px solid var(--accent); }
+    #qrcode-container { display: flex; justify-content: center; padding: 10px; background-color: white; border-radius: 8px; box-shadow: var(--shadow-light); }
     @media (max-width: 768px) {
-      .menu-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      .category-card {
-        height: 250px;
-      }
-      .modal-header {
-        padding: 15px 20px;
-      }
-      .modal-body-scrollable {
-          padding: 0 20px;
-      }
-      .modal-title {
-        font-size: 1.8rem;
-      }
+      .menu-grid { grid-template-columns: 1fr; gap: 20px; }
+      .category-card { height: 250px; }
+      .modal-header { padding: 15px 20px; }
+      .modal-body-scrollable { padding: 0 20px; }
+      .modal-title { font-size: 1.8rem; }
     }
+
+    .pay-now-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 28px;
+    background-color: #28a745; /* A standard green for 'Pay' buttons */
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+.pay-now-button:hover {
+    background-color: #218838;
+}
   </style>
 </head>
 <body>
@@ -407,26 +101,28 @@
 
     <main class="menu-grid">
         <div class="category-card" data-category="burger"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=2072&auto=format&fit=crop');"></div><h2 class="category-title">Burgers</h2></div>
+        <div class="category-card" data-category="sandwich"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=600&auto=format&fit=crop&q=60');"></div><h2 class="category-title">Sandwiches</h2></div>
         <div class="category-card" data-category="pizza"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=1935&auto=format&fit=crop');"></div><h2 class="category-title">Pizza</h2></div>
         <div class="category-card" data-category="pasta"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1903&auto=format&fit=crop');"></div><h2 class="category-title">Pasta</h2></div>
-        <div class="category-card" data-category="momos"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bW9tb3N8ZW58MHx8MHx8fDA%3D');"></div><h2 class="category-title">Momos</h2></div>
+        <div class="category-card" data-category="momos"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=60');"></div><h2 class="category-title">Momos</h2></div>
         <div class="category-card" data-category="fries"><div class="card-background" style="background-image: url('https://media.istockphoto.com/id/1218213212/photo/homemade-french-fries-with-ketchup-and-mayonnaise-on-rustic-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=QYwXP0-whoz7Cni7CXNfIyT_pOcRpZUYHqkTYH4MEhA=');"></div><h2 class="category-title">Fries</h2></div>
-        <div class="category-card" data-category="maggie"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1602833280958-1657662ccc58?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFnZ2llfGVufDB8fDB8fHww');"></div><h2 class="category-title">Maggie</h2></div>
-        <div class="category-card" data-category="wraps"><div class="card-background" style="background-image: url('https://plus.unsplash.com/premium_photo-1664478294917-c11274b9ce79?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8d3JhcHN8ZW58MHx8MHx8fDA%3D');"></div><h2 class="category-title">Wraps</h2></div>
+        <div class="category-card" data-category="maggie"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1602833280958-1657662ccc58?w=600&auto=format&fit=crop&q=60');"></div><h2 class="category-title">Maggie</h2></div>
+        <div class="category-card" data-category="wraps"><div class="card-background" style="background-image: url('https://plus.unsplash.com/premium_photo-1664478294917-c11274b9ce79?w=600&auto=format&fit=crop&q=60');"></div><h2 class="category-title">Wraps</h2></div>
         <div class="category-card" data-category="shakes"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=1887&auto=format&fit=crop');"></div><h2 class="category-title">Shakes</h2></div>
-        <div class="category-card" data-category="beverages"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1551030173-122aabc4489c?q=80&w=1887&auto=format&fit=crop');"></div><h2 class="category-title">Coffee</h2></div>
-        <div class="category-card" data-category="sandwich"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c2FuZHdpY2h8ZW58MHx8MHx8fDA%3D');"></div><h2 class="category-title">Sandwich</h2></div>
-
+        <div class="category-card" data-category="coffee"><div class="card-background" style="background-image: url('https://images.unsplash.com/photo-1551030173-122aabc4489c?q=80&w=1887&auto=format&fit=crop');"></div><h2 class="category-title">Coffee & Tea</h2></div>
     </main>
 
     <div class="review-section">
-        <a href="https://www.google.com/search?sa=X&sca_esv=db574b12b5cc4f7e&rlz=1C1RXQR_enIN1015IN1015&sxsrf=AE3TifN3tFeWKtMG0NKo2hzJUT8atPWgcg:1753719057015&q=passtime+cafe+karve+nagar+pune&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-ExOlUsG3pl95pw1oXMJbXRv2G7OVKCazs0587QUNXZ-3JqHlr7vZCoCoK5vYYKCB4tgJ5jwkVtkHL0MKNPTXxRJA0ppb&ved=2ahUKEwjjobfL-N-OAxWPbGwGHcZSGPkQrrQLegQIGhAA&biw=1536&bih=695&dpr=1.25#lrd=0x3bc2bf6202271971:0x1803514c7f5f3c2e,3,,,," class="review-button" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.google.com/search?q=passtime+cafe+karve+nagar+pune" class="review-button" target="_blank" rel="noopener noreferrer">
             ⭐ Rate Us & Add Photos Online
         </a>
     </div>
 
     <footer>
-      &copy; 2025 PassTime Café. All rights reserved.
+      <p>&copy; 2025 PassTime Café. All rights reserved.</p>
+      <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
+          Project Lead & Developer: Neha Gurav | Year: 2025
+      </p>
     </footer>
   </div>
 
@@ -458,174 +154,135 @@
         <div id="burger-items">
             <h3 class="modal-title">Burgers</h3>
             <div class="menu-item"><div class="item-header"><div class="item-name">Veg Burger</div><div class="item-price">₹60</div></div><div class="item-desc">A classic burger with a mixed vegetable patty, lettuce, and tomato.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Burger</div><div class="item-price">₹70</div></div><div class="item-desc">Our veg burger with a generous slice of melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Burger</div><div class="item-price">₹70</div></div><div class="item-desc">Our classic veg burger with a generous slice of melted cheese.</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Veg Double Decker Burger</div><div class="item-price">₹130</div></div><div class="item-desc">Loaded with double veg patties, cheese, lettuce & special sauces.</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Aloo Tikki Burger</div><div class="item-price">₹70</div></div><div class="item-desc">Crispy potato patty burger with Indian spices and tangy sauces.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Aloo Tikki Cheese Burger</div><div class="item-price">₹80</div></div><div class="item-desc">The favorite aloo tikki burger, now with cheese!</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Aloo Tikki Cheese Burger</div><div class="item-price">₹80</div></div><div class="item-desc">The favorite aloo tikki burger, now with a slice of cheese!</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Aloo Tikki Double Decker</div><div class="item-price">₹140</div></div><div class="item-desc">Double the patty, double the fun. For the truly hungry.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Burger</div><div class="item-price">₹90</div></div><div class="item-desc">A thick slice of marinated paneer, grilled to perfection.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Cheese Burger</div><div class="item-price">₹100</div></div><div class="item-desc">Grilled paneer patty topped with a slice of rich cheese.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Double Decker</div><div class="item-price">₹170</div></div><div class="item-desc">Two layers of our signature grilled paneer patty.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Burger</div><div class="item-price">₹90</div></div><div class="item-desc">A thick slice of marinated cottage cheese, grilled to perfection.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Cheese Burger</div><div class="item-price">₹100</div></div><div class="item-desc">Our grilled paneer patty topped with a slice of rich cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Double Decker</div><div class="item-price">₹170</div></div><div class="item-desc">Two layers of our signature grilled paneer patty in one burger.</div></div>
+        </div>
+        <div id="sandwich-items">
+            <h3 class="modal-title">Sandwiches</h3>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Bread Butter</div><div class="item-price">₹40</div></div><div class="item-desc">Simple, classic, and toasted to perfection.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Grilled Sandwich</div><div class="item-price">₹70</div></div><div class="item-desc">A wholesome sandwich filled with fresh, crunchy vegetables.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Grilled Sandwich</div><div class="item-price">₹75</div></div><div class="item-desc">Our veggie sandwich, grilled with a layer of melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Sandwich</div><div class="item-price">₹65</div></div><div class="item-desc">A delightful mix of sweet corn and creamy cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Sandwich</div><div class="item-price">₹60</div></div><div class="item-desc">Simply delicious, with layers of melted cheese grilled between bread.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Chocolate Sandwich</div><div class="item-price">₹65</div></div><div class="item-desc">A sweet treat with rich chocolate spread, grilled until warm.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Tandoori Sandwich</div><div class="item-price">₹80</div></div><div class="item-desc">Spicy tandoori paneer filling for a smoky, flavorful bite.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Makhni Sandwich</div><div class="item-price">₹80</div></div><div class="item-desc">Creamy and rich makhni paneer in a grilled sandwich.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Chilly Sandwich</div><div class="item-price">₹75</div></div><div class="item-desc">A spicy and cheesy delight for your taste buds.</div></div>
         </div>
         <div id="pizza-items">
-    <h3 class="modal-title">Pizza</h3>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">Margherita Pizza</div><div class="item-price">₹90</div></div>
-        <div class="item-desc">Classic cheese pizza with fresh tomato sauce and mozzarella.</div>
-    </div>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">Veg Classic Pizza</div><div class="item-price">₹110</div></div>
-        <div class="item-desc">Loaded with fresh veggies and herbs on a crispy crust.</div>
-    </div>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">American Corn Cheese Pizza</div><div class="item-price">₹110</div></div>
-        <div class="item-desc">Sweet corn blended with creamy cheese on a soft crust.</div>
-    </div>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">Veg Cheese Burst Pizza</div><div class="item-price">₹130</div></div>
-        <div class="item-desc">Cheese-filled crust with rich veggie toppings and extra cheese.</div>
-    </div>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">Paneer Capsicum Pizza</div><div class="item-price">₹120</div></div>
-        <div class="item-desc">Flavorful paneer chunks with crunchy capsicum and melted cheese.</div>
-    </div>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">Paneer Makhani Pizza</div><div class="item-price">₹140</div></div>
-        <div class="item-desc">Rich and creamy makhani sauce topped with soft paneer cubes.</div>
-    </div>
-
-    <div class="menu-item">
-        <div class="item-header"><div class="item-name">Paneer Tandoori Pizza</div><div class="item-price">₹140</div></div>
-        <div class="item-desc">Spicy tandoori paneer with cheese on a smoky, crispy base.</div>
-    </div>
-</div>
-
+            <h3 class="modal-title">Pizza</h3>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Margherita Pizza</div><div class="item-price">₹90</div></div><div class="item-desc">Classic cheese pizza with fresh tomato sauce and mozzarella.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Classic Pizza</div><div class="item-price">₹110</div></div><div class="item-desc">Loaded with fresh veggies and herbs on a crispy crust.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">American Corn Cheese Pizza</div><div class="item-price">₹110</div></div><div class="item-desc">Sweet corn blended with creamy cheese on a soft crust.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Burst Pizza</div><div class="item-price">₹130</div></div><div class="item-desc">A cheese-filled crust with rich veggie toppings and extra cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Capsicum Pizza</div><div class="item-price">₹120</div></div><div class="item-desc">Flavorful paneer chunks with crunchy capsicum and melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Makhani Pizza</div><div class="item-price">₹140</div></div><div class="item-desc">Rich and creamy makhani sauce topped with soft paneer cubes.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Tandoori Pizza</div><div class="item-price">₹140</div></div><div class="item-desc">Spicy tandoori paneer with cheese on a smoky, crispy base.</div></div>
+        </div>
         <div id="pasta-items">
             <h3 class="modal-title">Pasta</h3>
             <div class="menu-item"><div class="item-header"><div class="item-name">White Sauce Pasta</div><div class="item-price">₹110</div></div><div class="item-desc">Creamy and rich pasta in a classic béchamel sauce with exotic veggies.</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Cheesy White Sauce Pasta</div><div class="item-price">₹130</div></div><div class="item-desc">Our creamy white sauce pasta, baked with extra cheese on top.</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Red Sauce Pasta</div><div class="item-price">₹110</div></div><div class="item-desc">A tangy and savory pasta in a tomato and basil sauce.</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Cheesy Red Sauce Pasta</div><div class="item-price">₹130</div></div><div class="item-desc">Tangy red sauce pasta, baked with a layer of mozzarella.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Creamy Peri Peri Pasta</div><div class="item-price">₹110</div></div><div class="item-desc">A rich, velvety pasta tossed in spicy Peri Peri sauce and cream for a smooth, fiery taste.</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheesy Peri Peri Pasta</div><div class="item-price">₹130</div></div><div class="item-desc">A bold fusion of Peri Peri spices and melted cheese, delivering a spicy and gooey indulgence.</div></div>
-
+            <div class="menu-item"><div class="item-header"><div class="item-name">Creamy Peri Peri Pasta</div><div class="item-price">₹110</div></div><div class="item-desc">A rich, velvety pasta tossed in spicy Peri Peri sauce and cream.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheesy Peri Peri Pasta</div><div class="item-price">₹130</div></div><div class="item-desc">A bold fusion of Peri Peri spices and melted cheese.</div></div>
         </div>
         <div id="momos-items">
             <h3 class="modal-title">Momos</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Steam Momos</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Fried Momos</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Kurkure Momos</div><div class="item-price">₹75</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Peri-Peri Momos</div><div class="item-price">₹75</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Lava Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Makhani Momos</div><div class="item-price">₹85</div></div></div>
-
-
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Steam Momos</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Fried Momos</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Kurkure Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Peri-Peri Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Lava Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Makhani Momos</div><div class="item-price">₹85</div></div></div>
-
-
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Fried Momos</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Kurkure Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Peri-Peri Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Lava Momos</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Makhani Momos</div><div class="item-price">₹85</div></div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Steam Momos</div><div class="item-price">₹50</div></div><div class="item-desc">Classic steamed dumplings with a savory vegetable filling.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Fried Momos</div><div class="item-price">₹50</div></div><div class="item-desc">Crispy fried dumplings with a delicious vegetable filling.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Kurkure Momos</div><div class="item-price">₹75</div></div><div class="item-desc">An extra crispy version of our classic fried momos.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Peri-Peri Momos</div><div class="item-price">₹75</div></div><div class="item-desc">Fried momos tossed in a tangy and spicy peri-peri sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Lava Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Momos served with a special spicy and cheesy lava sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Makhani Momos</div><div class="item-price">₹85</div></div><div class="item-desc">A fusion of momos in a rich and creamy makhani gravy.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Steam Momos</div><div class="item-price">₹60</div></div><div class="item-desc">Steamed dumplings filled with spiced paneer.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Fried Momos</div><div class="item-price">₹65</div></div><div class="item-desc">Crispy fried dumplings with a savory paneer filling.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Kurkure Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Extra crispy fried momos filled with delicious paneer.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Peri-Peri Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Paneer momos tossed in a tangy peri-peri sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Lava Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Paneer momos served with a spicy and cheesy lava sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Makhani Momos</div><div class="item-price">₹85</div></div><div class="item-desc">A delightful fusion of paneer momos in makhani gravy.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Fried Momos</div><div class="item-price">₹65</div></div><div class="item-desc">Fried dumplings filled with a creamy mix of cheese and corn.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Kurkure Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Extra crispy momos with a cheese and corn filling.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Peri-Peri Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Cheesy corn momos tossed in a spicy peri-peri sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Lava Momos</div><div class="item-price">₹80</div></div><div class="item-desc">Cheesy corn momos with our special lava sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Makhani Momos</div><div class="item-price">₹85</div></div><div class="item-desc">A rich combination of cheesy corn momos in makhani gravy.</div></div>
         </div>
         <div id="fries-items">
             <h3 class="modal-title">Fries</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">French Fries</div><div class="item-price">₹55</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Salted French Fries</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Peri Peri French Fries</div><div class="item-price">₹70</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese French Fries</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Peri Peri French Fries</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Lava French Fries</div><div class="item-price">₹85</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Lava French Fries</div><div class="item-price">₹95</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheesy Tandoori French Fries</div><div class="item-price">₹95</div></div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">French Fries</div><div class="item-price">₹55</div></div><div class="item-desc">Classic, crispy, and perfectly salted.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Salted French Fries</div><div class="item-price">₹65</div></div><div class="item-desc">Our classic fries with an extra touch of salt.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Peri Peri French Fries</div><div class="item-price">₹70</div></div><div class="item-desc">Crispy fries tossed in a zesty peri-peri seasoning.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese French Fries</div><div class="item-price">₹80</div></div><div class="item-desc">Fries topped with a generous amount of melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Peri Peri French Fries</div><div class="item-price">₹80</div></div><div class="item-desc">A spicy and cheesy delight combining two great flavors.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Lava French Fries</div><div class="item-price">₹85</div></div><div class="item-desc">Fries smothered in our special spicy and cheesy lava sauce.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Lava French Fries</div><div class="item-price">₹95</div></div><div class="item-desc">Our lava fries with an extra topping of melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheesy Tandoori French Fries</div><div class="item-price">₹95</div></div><div class="item-desc">Fries served with a creamy and smoky tandoori cheese sauce.</div></div>
         </div>
         <div id="maggie-items">
             <h3 class="modal-title">Maggie</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Regular Maggie</div><div class="item-price">₹35</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Grated Cheese Regular Maggie</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Melted Cheese Regular Maggie</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Masala Maggie</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Grated Cheese Masala Maggie</div><div class="item-price">₹55</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Melted Cheese Masala Maggie</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Corn Masala Maggie</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Grated Cheese Corn Masala Maggie</div><div class="item-price">₹55</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Melted Cheese Corn Masala Maggie</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cream & Onion Maggie</div><div class="item-price">₹70</div></div><div class="item-desc">Past Time Special</div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Doritos Maggie</div><div class="item-price">₹70</div></div><div class="item-desc">Past Time Special</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Regular Maggie</div><div class="item-price">₹35</div></div><div class="item-desc">The classic comfort food, cooked to perfection.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Grated Cheese Regular Maggie</div><div class="item-price">₹50</div></div><div class="item-desc">Classic Maggie topped with a generous amount of grated cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Melted Cheese Regular Maggie</div><div class="item-price">₹60</div></div><div class="item-desc">Classic Maggie with delicious melted cheese mixed in.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Masala Maggie</div><div class="item-price">₹50</div></div><div class="item-desc">A spicier version of the classic with extra masala.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Grated Cheese Masala Maggie</div><div class="item-price">₹55</div></div><div class="item-desc">Masala Maggie topped with grated cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Melted Cheese Masala Maggie</div><div class="item-price">₹65</div></div><div class="item-desc">Masala Maggie with creamy melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Corn Masala Maggie</div><div class="item-price">₹50</div></div><div class="item-desc">Masala Maggie with the added sweetness of corn.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Grated Cheese Corn Masala Maggie</div><div class="item-price">₹55</div></div><div class="item-desc">Our corn masala maggie topped with grated cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Melted Cheese Corn Masala Maggie</div><div class="item-price">₹65</div></div><div class="item-desc">Our corn masala maggie with creamy melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cream & Onion Maggie</div><div class="item-price">₹70</div></div><div class="item-desc">PassTime Special: A unique creamy and savory flavor.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Doritos Maggie</div><div class="item-price">₹70</div></div><div class="item-desc">PassTime Special: Your favorite noodles with a crunchy twist.</div></div>
         </div>
         <div id="wraps-items">
             <h3 class="modal-title">Wraps & Toast</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Wrap</div><div class="item-price">₹90</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Cheese Wrap</div><div class="item-price">₹100</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Toast</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Chilly Toast</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Garlic Toast</div><div class="item-price">₹70</div></div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Wrap</div><div class="item-price">₹90</div></div><div class="item-desc">A fresh tortilla wrap filled with veggies and cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Cheese Wrap</div><div class="item-price">₹100</div></div><div class="item-desc">A hearty wrap filled with spiced paneer and cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Toast</div><div class="item-price">₹50</div></div><div class="item-desc">Toasted bread with a simple yet delicious layer of melted cheese.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Chilly Toast</div><div class="item-price">₹65</div></div><div class="item-desc">A spicy twist on the classic cheese toast with green chillies.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Garlic Toast</div><div class="item-price">₹70</div></div><div class="item-desc">Toasted bread with a flavorful mix of cheese and garlic.</div></div>
         </div>
         <div id="shakes-items">
             <h3 class="modal-title">Shakes & Mocktails</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Strawberry Shake</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Butterscotch Shake</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Mango Shake</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Pista Shake</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Black Current Shake</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Kitkat Shake</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Oreo Shake</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Blue Lagoon</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Orange Mocktail</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Green Mint Mocktail</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Green Apple Mocktail</div><div class="item-price">₹60</div></div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Strawberry Shake</div><div class="item-price">₹50</div></div><div class="item-desc">A creamy and delicious shake made with real strawberries.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Butterscotch Shake</div><div class="item-price">₹50</div></div><div class="item-desc">A sweet and creamy shake with a rich butterscotch flavor.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Mango Shake</div><div class="item-price">₹50</div></div><div class="item-desc">A refreshing shake made with the king of fruits.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Pista Shake</div><div class="item-price">₹50</div></div><div class="item-desc">A nutty and creamy shake with the flavor of pistachios.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Black Currant Shake</div><div class="item-price">₹50</div></div><div class="item-desc">A sweet and tangy shake with a vibrant black currant flavor.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Kitkat Shake</div><div class="item-price">₹60</div></div><div class="item-desc">A crunchy and chocolatey shake made with KitKat bars.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Oreo Shake</div><div class="item-price">₹60</div></div><div class="item-desc">The classic cookies and cream shake.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Blue Lagoon Mocktail</div><div class="item-price">₹60</div></div><div class="item-desc">A sparkling and refreshing blue citrus mocktail.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Orange Mocktail</div><div class="item-price">₹60</div></div><div class="item-desc">A zesty and refreshing mocktail with a citrus burst.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Green Mint Mocktail</div><div class="item-price">₹60</div></div><div class="item-desc">A cool and refreshing mocktail with a hint of mint.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Green Apple Mocktail</div><div class="item-price">₹60</div></div><div class="item-desc">A tangy and sweet mocktail with a crisp green apple flavor.</div></div>
         </div>
-        <div id="beverages-items">
+        <div id="coffee-items">
             <h3 class="modal-title">Coffee & Tea</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Thick Cold Coffee</div><div class="item-price">₹25</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Regular Cold Coffee</div><div class="item-price">₹30</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">T. Cold Coffee with Ice-Cream </div><div class="item-price">₹35</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">T. Cold Coffee with Crush</div><div class="item-price">₹35</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">T. Cold Coffee Crush with Ice-Cream</div><div class="item-price">₹50</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Dark Chocolate Brew</div><div class="item-price">₹70</div></div></div>
-
-            <div class="menu-item"><div class="item-header"><div class="item-name">Regular Hot Coffee</div><div class="item-price">₹20</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Strong Hot Coffee</div><div class="item-price">₹25</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Black Coffee</div><div class="item-price">₹20</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Hot Chocolate</div><div class="item-price">₹35</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Black Tea</div><div class="item-price">₹15</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Masala Chai</div><div class="item-price">₹15</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Lemon Tea</div><div class="item-price">₹20</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Add-on</div><div class="item-price">₹10</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Ice-Cream Add-on</div><div class="item-price">₹15</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Crush Add-on</div><div class="item-price">₹15</div></div></div>
-        </div>
-
-        <div id="sandwich-items">
-            <h3 class="modal-title">Sandwich</h3>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Bread Butter</div><div class="item-price">₹40</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Grilled Sandwich</div><div class="item-price">₹70</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Grilled Sandwich</div><div class="item-price">₹75</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Corn Sandwich</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Sandwich</div><div class="item-price">₹60</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Chocolate Sandwich</div><div class="item-price">₹65</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Tandoori Sandwich</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Paneer Makhni Sandwich</div><div class="item-price">₹80</div></div></div>
-            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Chilly Sandwich</div><div class="item-price">₹75</div></div></div>
-
-
+            <div class="menu-item"><div class="item-header"><div class="item-name">Thick Cold Coffee</div><div class="item-price">₹25</div></div><div class="item-desc">A rich and creamy cold coffee, blended to perfection.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Regular Cold Coffee</div><div class="item-price">₹30</div></div><div class="item-desc">The classic cold coffee to cool you down.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cold Coffee with Ice-Cream</div><div class="item-price">₹35</div></div><div class="item-desc">Our classic cold coffee with a scoop of vanilla ice cream.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cold Coffee with Crush</div><div class="item-price">₹35</div></div><div class="item-desc">A fun twist on our cold coffee with your favorite crush.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cold Coffee Crush with Ice-Cream</div><div class="item-price">₹50</div></div><div class="item-desc">The ultimate indulgence: cold coffee, crush, and ice cream.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Dark Chocolate Brew</div><div class="item-price">₹70</div></div><div class="item-desc">A rich and intense brew for dark chocolate lovers.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Regular Hot Coffee</div><div class="item-price">₹20</div></div><div class="item-desc">A classic, freshly brewed hot coffee.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Strong Hot Coffee</div><div class="item-price">₹25</div></div><div class="item-desc">For those who need an extra kick of caffeine.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Black Coffee</div><div class="item-price">₹20</div></div><div class="item-desc">Simple, strong, and without milk.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Hot Chocolate</div><div class="item-price">₹35</div></div><div class="item-desc">A warm and comforting cup of rich hot chocolate.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Black Tea</div><div class="item-price">₹15</div></div><div class="item-desc">A simple and refreshing cup of black tea.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Masala Chai</div><div class="item-price">₹15</div></div><div class="item-desc">A traditional Indian tea with aromatic spices.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Lemon Tea</div><div class="item-price">₹20</div></div><div class="item-desc">A zesty and refreshing tea with a hint of lemon.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Cheese Add-on</div><div class="item-price">₹10</div></div><div class="item-desc">Add extra cheese to any dish.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Ice-Cream Add-on</div><div class="item-price">₹15</div></div><div class="item-desc">Add a scoop of ice cream to your shake or coffee.</div></div>
+            <div class="menu-item"><div class="item-header"><div class="item-name">Crush Add-on</div><div class="item-price">₹15</div></div><div class="item-desc">Add a flavored crush to your beverage.</div></div>
         </div>
   </div>
 
-
- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const categoryCards = document.querySelectorAll('.category-card');
         const menuModal = document.getElementById('menu-modal');
@@ -638,7 +295,7 @@
         const cartCount = document.getElementById('cart-count');
         const cartEmoji = document.getElementById('cart-emoji');
 
-        let order = {}; // Use an object to store items by name for quantity tracking
+        let order = {};
 
         function updateMenuView() {
             const visibleItems = menuModalBody.querySelectorAll('.menu-item');
@@ -716,49 +373,75 @@
         }
 
         function showFinalBill() {
-            let totalItems = Object.keys(order).length;
-            if (totalItems === 0) {
-                billModal.classList.remove('show');
-                if (!document.querySelector('.modal.show')) {
-                    document.body.style.overflow = 'auto';
-                }
-                alert("Your order is empty! Click on a dish to add it to your order.");
-                return;
-            }
-
-            billModalTitle.textContent = "Your Final Order";
-            let billHTML = '';
-            let totalBillAmount = 0;
-
-            for (const name in order) {
-                const item = order[name];
-                const subtotal = item.price * item.quantity;
-                totalBillAmount += subtotal;
-                billHTML += `
-                    <div class="menu-item">
-                        <div class="item-header">
-                            <div class="bill-item-details">
-                                <div class="item-name">${name}</div>
-                                <div class="item-desc">₹${item.price.toFixed(2)} each</div>
-                            </div>
-                            <div class="bill-item-actions">
-                                <span class="bill-item-quantity">Qty: ${item.quantity}</span>
-                                <button class="remove-item-btn" data-name="${name}">-</button>
-                            </div>
-                            <div class="item-price">₹${subtotal.toFixed(2)}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            billHTML += `<div class="total-bill">Total Bill: ₹${totalBillAmount.toFixed(2)}</div>`;
-            billModalBody.innerHTML = billHTML;
-
-            if (!billModal.classList.contains('show')) {
-                billModal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-            }
+    let totalItems = Object.keys(order).length;
+    if (totalItems === 0) {
+        billModal.classList.remove('show');
+        if (!document.querySelector('.modal.show')) {
+            document.body.style.overflow = 'auto';
         }
+        alert("Your order is empty! Click on a dish to add it to your order.");
+        return;
+    }
 
+    billModalTitle.textContent = "Your Final Order";
+    let billHTML = '';
+    let totalBillAmount = 0;
+
+    for (const name in order) {
+        const item = order[name];
+        const subtotal = item.price * item.quantity;
+        totalBillAmount += subtotal;
+        billHTML += `
+            <div class="menu-item">
+                <div class="item-header">
+                    <div class="bill-item-details">
+                        <div class="item-name">${name}</div>
+                        <div class="item-desc">₹${item.price.toFixed(2)} each</div>
+                    </div>
+                    <div class="bill-item-actions">
+                        <span class="bill-item-quantity">Qty: ${item.quantity}</span>
+                        <button class="remove-item-btn" data-name="${name}">-</button>
+                    </div>
+                    <div class="item-price">₹${subtotal.toFixed(2)}</div>
+                </div>
+            </div>
+        `;
+    }
+    billHTML += `<div class="total-bill">Total Bill: ₹${totalBillAmount.toFixed(2)}</div>`;
+    
+    // --- UPI AND QR CODE LOGIC ---
+    const upiId = 'nehagurav3101@okicici';
+    const payeeName = 'Neha Gurav';
+    const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${totalBillAmount.toFixed(2)}&tn=Order%20from%20PassTime%20Cafe&cu=INR`;
+    
+    // This section now includes the "Pay Now" button for single-device payments
+    billHTML += `
+        <div style="text-align: center; margin-top: 25px;">
+            <p style="font-weight: 600; margin-bottom: 15px;">Scan with another device OR pay directly on this phone</p>
+            <div id="qrcode-container"></div>
+            <a href="${upiLink}" class="pay-now-button">Pay ₹${totalBillAmount.toFixed(2)} Now</a>
+        </div>
+    `;
+
+    billModalBody.innerHTML = billHTML;
+
+    // Generate QR Code after bill HTML is in the DOM
+    const qrContainer = document.getElementById('qrcode-container');
+    qrContainer.innerHTML = ""; // Clear previous QR code
+    new QRCode(qrContainer, {
+        text: upiLink,
+        width: 250,
+        height: 250,
+        colorDark : "#3a3228",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+    if (!billModal.classList.contains('show')) {
+        billModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+}
         categoryCards.forEach(card => {
             card.addEventListener('click', () => openMenuModal(card.dataset.category));
         });
