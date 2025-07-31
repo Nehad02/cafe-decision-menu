@@ -7,24 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
   <style>
-    body {
-      padding-bottom: 100px; /* Prevent footer or button overlap */
-    }
     :root {
-      --primary: #905335;
-      --secondary: #cac47f;
-      --accent: #f1f1eb;
-      --light-bg: #fdfdfb;
-      --text: #3a3228;
-      --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
-      --shadow-medium: 0 8px 30px rgba(144, 83, 53, 0.15);
-      --header-bg: #2E3B4E;
+      --primary: #905335; --secondary: #cac47f; --accent: #f1f1eb; --light-bg: #fdfdfb;
+      --text: #3a3228; --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
+      --shadow-medium: 0 8px 30px rgba(144, 83, 53, 0.15); --header-bg: #2E3B4E;
       --highlight-bg: #fdf8f2;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Montserrat', sans-serif; color: var(--text); background-color: var(--light-bg); line-height: 1.6; }
+    body { font-family: 'Montserrat', sans-serif; color: var(--text); background-color: var(--light-bg); line-height: 1.6; padding-bottom: 100px; }
     .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
     header { text-align: center; padding: 25px 20px; background-color: var(--header-bg); color: var(--light-bg); margin-bottom: 50px; border-radius: 12px; box-shadow: var(--shadow-medium); }
     .cafe-logo { max-width: 280px; height: auto; }
@@ -40,7 +31,7 @@
     .review-section { text-align: center; padding: 40px 20px; background-color: var(--accent); margin: 50px auto; border-radius: 12px; }
     .review-button { display: inline-block; padding: 15px 30px; background-color: var(--primary); color: white; text-decoration: none; font-size: 1.1rem; font-weight: 600; border-radius: 8px; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: var(--shadow-light); }
     .review-button:hover { background-color: #a46440; transform: translateY(-3px); box-shadow: var(--shadow-medium); }
-    footer { text-align: center; padding: 40px 0; margin-top: 20px; border-top: 1px solid var(--accent); }
+    footer { text-align: center; padding: 30px 20px; margin-top: 40px; border-top: 1px solid var(--accent); background-color: var(--accent); border-radius: 12px; }
     footer p { font-size: 0.9rem; color: var(--text); opacity: 0.7; }
     .modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
     .modal.show { display: flex; opacity: 1; }
@@ -70,7 +61,7 @@
     .bill-item-quantity { margin: 0 15px; font-weight: 600; }
     .remove-item-btn { background: #e74c3c; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-weight: bold; line-height: 25px; text-align: center; pointer-events: auto; }
     .total-bill { text-align: right; font-size: 1.5rem; font-weight: bold; color: var(--primary); margin-top: 20px; padding: 20px 0; border-top: 2px solid var(--accent); }
-    #qrcode-container { display: flex; justify-content: center; padding: 10px; background-color: white; border-radius: 8px; box-shadow: var(--shadow-light); }
+    /* Payment-related styles are no longer needed */
     @media (max-width: 768px) {
       .menu-grid { grid-template-columns: 1fr; gap: 20px; }
       .category-card { height: 250px; }
@@ -78,41 +69,10 @@
       .modal-body-scrollable { padding: 0 20px; }
       .modal-title { font-size: 1.8rem; }
     }
-
-    body {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--text);
-    background-color: var(--light-bg);
-    line-height: 1.6;
-    padding-bottom: 100px; /* Adds space at the bottom for the floating button */
-}
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 40px;
-    border-top: 1px solid var(--accent);
-    background-color: var(--accent); /* Adds a subtle background */
-    border-radius: 12px;
-}
-
-    .pay-now-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 28px;
-    background-color: #28a745; /* A standard green for 'Pay' buttons */
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-.pay-now-button:hover {
-    background-color: #218838;
-}
   </style>
 </head>
 <body>
+    
   <div class="container">
     <header>
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzRT1plGvQJTsWLsLv9EixxpWjKBdK5l4o5A&s" alt="PassTime Cafe Logo" class="cafe-logo">
@@ -138,12 +98,13 @@ footer {
         </a>
     </div>
 
-  <footer>
-    <p>&copy; 2025 PassTime Café. All rights reserved.</p>
-    <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
-        Project Lead & Developer: Neha Gurav | Year: 2025
-    </p>
-</footer>
+    <footer>
+        <p>&copy; 2025 PassTime Café. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
+            Project Lead & Developer: Neha Gurav | Year: 2025
+        </p>
+    </footer>
+
   </div>
 
   <div id="menu-modal" class="modal">
@@ -171,7 +132,7 @@ footer {
   </div>
 
   <div class="hidden-content">
-        <div id="burger-items">
+      <div id="burger-items">
             <h3 class="modal-title">Burgers</h3>
             <div class="menu-item"><div class="item-header"><div class="item-name">Veg Burger</div><div class="item-price">₹60</div></div><div class="item-desc">A classic burger with a mixed vegetable patty, lettuce, and tomato.</div></div>
             <div class="menu-item"><div class="item-header"><div class="item-name">Veg Cheese Burger</div><div class="item-price">₹70</div></div><div class="item-desc">Our classic veg burger with a generous slice of melted cheese.</div></div>
@@ -303,206 +264,207 @@ footer {
   </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const categoryCards = document.querySelectorAll('.category-card');
-        const menuModal = document.getElementById('menu-modal');
-        const menuModalTitle = document.getElementById('menu-modal-title');
-        const menuModalBody = document.getElementById('menu-modal-body');
-        const billModal = document.getElementById('bill-modal');
-        const billModalTitle = document.getElementById('bill-modal-title');
-        const billModalBody = document.getElementById('bill-modal-body');
-        const cartButton = document.getElementById('cart-button');
-        const cartCount = document.getElementById('cart-count');
-        const cartEmoji = document.getElementById('cart-emoji');
+document.addEventListener('DOMContentLoaded', function () {
+    const categoryCards = document.querySelectorAll('.category-card');
+    const menuModal = document.getElementById('menu-modal');
+    const menuModalTitle = document.getElementById('menu-modal-title');
+    const menuModalBody = document.getElementById('menu-modal-body');
+    const billModal = document.getElementById('bill-modal');
+    const billModalTitle = document.getElementById('bill-modal-title');
+    const billModalBody = document.getElementById('bill-modal-body');
+    const cartButton = document.getElementById('cart-button');
+    const cartCount = document.getElementById('cart-count');
+    const cartEmoji = document.getElementById('cart-emoji');
 
-        let order = {};
-
-        function updateMenuView() {
-            const visibleItems = menuModalBody.querySelectorAll('.menu-item');
-            visibleItems.forEach(itemEl => {
-                const name = itemEl.querySelector('.item-name').textContent;
-                const existingBadge = itemEl.querySelector('.item-quantity-badge');
-                if (existingBadge) {
-                    existingBadge.remove();
-                }
-
-                if (order[name] && order[name].quantity > 0) {
-                    itemEl.classList.add('in-cart');
-                    const badge = document.createElement('div');
-                    badge.className = 'item-quantity-badge';
-                    badge.textContent = `+${order[name].quantity}`;
-                    itemEl.appendChild(badge);
-                } else {
-                    itemEl.classList.remove('in-cart');
-                }
-            });
-        }
-
-        function openMenuModal(category) {
-            const sourceDiv = document.getElementById(`${category}-items`);
-            if (!sourceDiv) {
-                console.error(`Menu content for category '${category}' not found.`);
-                return;
-            }
-            const sourceTitle = sourceDiv.querySelector('.modal-title').textContent;
-            const sourceItems = sourceDiv.querySelectorAll('.menu-item');
-            let itemsHTML = '';
-            sourceItems.forEach(item => {
-                itemsHTML += item.outerHTML;
-            });
-            menuModalTitle.textContent = sourceTitle;
-            menuModalBody.innerHTML = itemsHTML;
-            updateMenuView();
-            menuModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function addItemToOrder(itemEl) {
-            const name = itemEl.querySelector('.item-name').textContent;
-            const priceString = itemEl.querySelector('.item-price').textContent;
-            const price = parseFloat(priceString.replace('₹', ''));
-
-            if (order[name]) {
-                order[name].quantity++;
-            } else {
-                order[name] = { price, quantity: 1 };
-            }
-            updateCartButton();
-            updateMenuView();
-        }
-
-        function removeItemFromOrder(name) {
-            if (order[name]) {
-                order[name].quantity--;
-                if (order[name].quantity <= 0) {
-                    delete order[name];
-                }
-            }
-            updateCartButton();
-            showFinalBill(); 
-            updateMenuView();
-        }
-
-        function updateCartButton() {
-            let totalItems = 0;
-            for (const name in order) {
-                totalItems += order[name].quantity;
-            }
-            cartCount.textContent = totalItems;
-            cartEmoji.textContent = totalItems === 0 ? '🍽️' : '🥗';
-        }
-
-        function showFinalBill() {
-    let totalItems = Object.keys(order).length;
-    if (totalItems === 0) {
-        billModal.classList.remove('show');
-        if (!document.querySelector('.modal.show')) {
-            document.body.style.overflow = 'auto';
-        }
-        alert("Your order is empty! Click on a dish to add it to your order.");
-        return;
-    }
-
-    billModalTitle.textContent = "Your Final Order";
-    let billHTML = '';
-    let totalBillAmount = 0;
-
-    for (const name in order) {
-        const item = order[name];
-        const subtotal = item.price * item.quantity;
-        totalBillAmount += subtotal;
-        billHTML += `
-            <div class="menu-item">
-                <div class="item-header">
-                    <div class="bill-item-details">
-                        <div class="item-name">${name}</div>
-                        <div class="item-desc">₹${item.price.toFixed(2)} each</div>
-                    </div>
-                    <div class="bill-item-actions">
-                        <span class="bill-item-quantity">Qty: ${item.quantity}</span>
-                        <button class="remove-item-btn" data-name="${name}">-</button>
-                    </div>
-                    <div class="item-price">₹${subtotal.toFixed(2)}</div>
-                </div>
-            </div>
-        `;
-    }
-    billHTML += `<div class="total-bill">Total Bill: ₹${totalBillAmount.toFixed(2)}</div>`;
+    let order = {};
     
-    // --- UPI AND QR CODE LOGIC ---
-    const upiId = 'nehagurav3101@okicici';
-    const payeeName = 'Neha Gurav';
-    const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${totalBillAmount.toFixed(2)}&tn=Order%20from%20PassTime%20Cafe&cu=INR`;
-    
-    // This section now includes the "Pay Now" button for single-device payments
-    billHTML += `
-        <div style="text-align: center; margin-top: 25px;">
-            <p style="font-weight: 600; margin-bottom: 15px;">Scan with another device OR pay directly on this phone</p>
-            <div id="qrcode-container"></div>
-            <a href="${upiLink}" class="pay-now-button">Pay ₹${totalBillAmount.toFixed(2)} Now</a>
-        </div>
-    `;
-
-    billModalBody.innerHTML = billHTML;
-
-    // Generate QR Code after bill HTML is in the DOM
-    const qrContainer = document.getElementById('qrcode-container');
-    qrContainer.innerHTML = ""; // Clear previous QR code
-    new QRCode(qrContainer, {
-        text: upiLink,
-        width: 250,
-        height: 250,
-        colorDark : "#3a3228",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
+    // --- SECURITY FEATURE: Price Database ---
+    const priceDatabase = {};
+    document.querySelectorAll('.hidden-content .menu-item').forEach(itemEl => {
+        const name = itemEl.querySelector('.item-name').textContent;
+        const priceString = itemEl.querySelector('.item-price').textContent;
+        const price = parseFloat(priceString.replace('₹', ''));
+        if (name && !isNaN(price)) {
+            priceDatabase[name] = price;
+        }
     });
 
-    if (!billModal.classList.contains('show')) {
-        billModal.classList.add('show');
+    function updateMenuView() {
+        const visibleItems = menuModalBody.querySelectorAll('.menu-item');
+        visibleItems.forEach(itemEl => {
+            const name = itemEl.querySelector('.item-name').textContent;
+            const existingBadge = itemEl.querySelector('.item-quantity-badge');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+
+            if (order[name] && order[name].quantity > 0) {
+                itemEl.classList.add('in-cart');
+                const badge = document.createElement('div');
+                badge.className = 'item-quantity-badge';
+                badge.textContent = `+${order[name].quantity}`;
+                itemEl.appendChild(badge);
+            } else {
+                itemEl.classList.remove('in-cart');
+            }
+        });
+    }
+
+    function openMenuModal(category) {
+        const sourceDiv = document.getElementById(`${category}-items`);
+        if (!sourceDiv) {
+            console.error(`Menu content for category '${category}' not found.`);
+            return;
+        }
+        const sourceTitle = sourceDiv.querySelector('.modal-title').textContent;
+        const sourceItems = sourceDiv.querySelectorAll('.menu-item');
+        let itemsHTML = '';
+        sourceItems.forEach(item => {
+            itemsHTML += item.outerHTML;
+        });
+        menuModalTitle.textContent = sourceTitle;
+        menuModalBody.innerHTML = itemsHTML;
+        updateMenuView();
+        menuModal.classList.add('show');
         document.body.style.overflow = 'hidden';
     }
-}
-        categoryCards.forEach(card => {
-            card.addEventListener('click', () => openMenuModal(card.dataset.category));
-        });
 
-        menuModalBody.addEventListener('click', e => {
-            const item = e.target.closest('.menu-item');
-            if (item) addItemToOrder(item);
-        });
-        
-        billModalBody.addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-item-btn')) {
-                const itemName = event.target.dataset.name;
-                removeItemFromOrder(itemName);
-            }
-        });
+    function addItemToOrder(itemEl) {
+        const name = itemEl.querySelector('.item-name').textContent;
+        const price = priceDatabase[name];
 
-        cartButton.addEventListener('click', showFinalBill);
-        
-        function setupModalClose(modal) {
-            const closeModalBtn = modal.querySelector('.modal-close');
-            function closeModal() {
-                modal.classList.remove('show');
-                if (!document.querySelector('.modal.show')) {
-                    document.body.style.overflow = 'auto';
-                }
-            }
-            closeModalBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', e => {
-                if(e.target === modal) closeModal();
-            });
+        if (typeof price === 'undefined') {
+            console.error(`Security Alert: Item "${name}" not found in price database.`);
+            return;
         }
-        setupModalClose(menuModal);
-        setupModalClose(billModal);
 
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal.show').forEach(modal => modal.classList.remove('show'));
+        if (order[name]) {
+            order[name].quantity++;
+        } else {
+            order[name] = { quantity: 1 };
+        }
+        updateCartButton();
+        updateMenuView();
+    }
+
+    function removeItemFromOrder(name) {
+        if (order[name]) {
+            order[name].quantity--;
+            if (order[name].quantity <= 0) {
+                delete order[name];
+            }
+        }
+        updateCartButton();
+        showFinalBill(); 
+        updateMenuView();
+    }
+
+    function updateCartButton() {
+        let totalItems = 0;
+        for (const name in order) {
+            totalItems += order[name].quantity;
+        }
+        cartCount.textContent = totalItems;
+        cartEmoji.textContent = totalItems === 0 ? '🍽️' : '🥗';
+    }
+
+    // MODIFIED FUNCTION: Calculates total but does NOT show payment options
+    function showFinalBill() {
+        let totalItems = Object.keys(order).length;
+        if (totalItems === 0) {
+            billModal.classList.remove('show');
+            if (!document.querySelector('.modal.show')) {
                 document.body.style.overflow = 'auto';
             }
-        });
+            alert("Your order is empty! Click on a dish to add it to your order.");
+            return;
+        }
+
+        billModalTitle.textContent = "Your Final Order";
+        let billHTML = '';
+        let totalBillAmount = 0;
+
+        for (const name in order) {
+            const item = order[name];
+            const price = priceDatabase[name];
+            
+            if (typeof price === 'undefined') {
+                 console.error(`Security Alert: Item "${name}" in order but not in price database during billing.`);
+                 continue;
+            }
+            
+            const subtotal = price * item.quantity;
+            totalBillAmount += subtotal;
+            billHTML += `
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="bill-item-details">
+                            <div class="item-name">${name}</div>
+                            <div class="item-desc">₹${price.toFixed(2)} each</div>
+                        </div>
+                        <div class="bill-item-actions">
+                            <span class="bill-item-quantity">Qty: ${item.quantity}</span>
+                            <button class="remove-item-btn" data-name="${name}">-</button>
+                        </div>
+                        <div class="item-price">₹${subtotal.toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        billHTML += `<div class="total-bill">Total Bill: ₹${totalBillAmount.toFixed(2)}</div>`;
+        
+        // The payment section has been removed.
+        // We just set the final HTML.
+        billModalBody.innerHTML = billHTML;
+
+        if (!billModal.classList.contains('show')) {
+            billModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+        
+    categoryCards.forEach(card => {
+        card.addEventListener('click', () => openMenuModal(card.dataset.category));
     });
+
+    menuModalBody.addEventListener('click', e => {
+        const item = e.target.closest('.menu-item');
+        if (item) addItemToOrder(item);
+    });
+    
+    billModalBody.addEventListener('click', function(event) {
+        if (event.target.classList.contains('remove-item-btn')) {
+            const itemName = event.target.dataset.name;
+            removeItemFromOrder(itemName);
+        }
+    });
+
+    cartButton.addEventListener('click', showFinalBill);
+    
+    function setupModalClose(modal) {
+        const closeModalBtn = modal.querySelector('.modal-close');
+        function closeModal() {
+            modal.classList.remove('show');
+            if (!document.querySelector('.modal.show')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', e => {
+            if(e.target === modal) closeModal();
+        });
+    }
+    setupModalClose(menuModal);
+    setupModalClose(billModal);
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal.show').forEach(modal => modal.classList.remove('show'));
+            document.body.style.overflow = 'auto';
+        }
+    });
+});
 </script>
 </body>
 </html>
